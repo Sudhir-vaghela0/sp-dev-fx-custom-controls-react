@@ -169,6 +169,7 @@ import { debounce } from 'lodash';
 import { mergeStyles } from '@fluentui/react/lib/Styling';
 import { sp } from '@pnp/sp';
 import styles from './ControlsTest.module.scss';
+import { EListType } from '../../../controls/listItemActivity/models/EListType';
 
 //#endregion
 
@@ -241,6 +242,7 @@ const IFramePanel = React.lazy(() => import('../../../IFramePanel').then(module 
 const ImagePicker = React.lazy(() => import('../../../ImagePicker').then(module => ({ default: module.ImagePicker })));
 const ListItemAttachments = React.lazy(() => import('../../../ListItemAttachments').then(module => ({ default: module.ListItemAttachments })));
 const ListItemComments = React.lazy(() => import('../../../ListItemComments').then(module => ({ default: module.ListItemComments })));
+const ListItemActivity = React.lazy(() => import('../../../ListItemActivity').then(module => ({ default: module.ListItemActivity })));
 const ListItemPicker = React.lazy(() => import('../../../ListItemPicker').then(module => ({ default: module.ListItemPicker })));
 const ListPicker = React.lazy(() => import('../../../ListPicker').then(module => ({ default: module.ListPicker })));
 
@@ -912,8 +914,8 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
   }
 
   private addFilter = () => {
-    const number = Math.floor(Math.random()*10)
-    const i = { label: `Field${number}`, value: `Field ${number}`};
+    const number = Math.floor(Math.random() * 10)
+    const i = { label: `Field${number}`, value: `Field ${number}` };
     this.setState({
       filters: [...this.state.filters, i]
     });
@@ -921,19 +923,19 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
 
   private onClearFilters = () => {
     console.log("Cleared all filters");
-    this.setState({ filters: []});
+    this.setState({ filters: [] });
   }
 
   private onRemoveFilter = (label: string, value: string) => {
     console.log(`Cleared ${label} ${value}`);
     const itm = this.state.filters.find(i => i.label === label && i.value === value);
     if (itm) {
-        const index = this.state.filters.indexOf(itm);
-        this.state.filters.splice(index, 1)
+      const index = this.state.filters.indexOf(itm);
+      this.state.filters.splice(index, 1)
 
-        this.setState({
-          filters: [...this.state.filters]
-        });
+      this.setState({
+        filters: [...this.state.filters]
+      });
     }
   }
 
@@ -962,7 +964,7 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
       <DocumentCard
         type={isCompact ? DocumentCardType.compact : DocumentCardType.normal}
         onClick={(ev: React.SyntheticEvent<HTMLElement>) => alert("You clicked on a grid item")}
-        style={{maxWidth: _finalSize.width}}
+        style={{ maxWidth: _finalSize.width }}
       >
         <DocumentCardPreview {...previewProps} />
         {!isCompact && <DocumentCardLocation location={item.location} />}
@@ -1867,6 +1869,22 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
               </div>
             </div>
           }
+          {controlVisibility.ListItemActivity &&
+            <div id="ListItemActivityDiv" className={styles.container}>
+              <div className="ms-font-m">List Item Activity Tester
+                <ListItemActivity
+                  context={this.props.context}
+                  webUrl="https://testinglala.sharepoint.com/sites/ReactDepartment"
+                  listId="4e33eb73-eedb-45c3-80e8-b0fcd85b42a3"
+                  itemId="10"
+                  siteId="testinglala.sharepoint.com,bed818a4-6ba1-4601-8e46-c391db8f73e7,7f1d6e56-d448-4a36-97f8-349579d0ee31"
+                  listType={EListType.List}
+                  label="Item Activity"
+                  numberActivitiesPerPage={10}
+                />
+              </div>
+            </div>
+          }
           {controlVisibility.ViewPicker &&
             <div id="ViewPickerDiv" className={styles.container}>
               <div className="ms-font-m">View picker tester:
@@ -2202,9 +2220,9 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
                 itemMinWidth={250}
                 itemMaxWidth={600}
                 itemPadding={60}
-                //compactThreshold={220}
-                //rowsPerPage={1}
-                />
+              //compactThreshold={220}
+              //rowsPerPage={1}
+              />
             </div>
           }
           {controlVisibility.HoverReactionsBar &&
@@ -3010,13 +3028,13 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
             controlVisibility.Calendar &&
             <div id="CalendarDiv" className={styles.container}>
               <TestCalendarControl
-                  context={this.props.context} theme={this.props.themeVariant as any}   hasTeamsContext={false} themeString={'default'} title={'Calendar'} appHostName={EAppHostName.SharePoint} />
+                context={this.props.context} theme={this.props.themeVariant as any} hasTeamsContext={false} themeString={'default'} title={'Calendar'} appHostName={EAppHostName.SharePoint} />
             </div>
 
           }
           {controlVisibility.WorldMap &&
             <div id="WorldMapDiv" className={styles.container}>
-              <WorldMap description={'World Map Sample'} isDarkTheme={false} hasTeamsContext={false} title={'Microsoft Locations Worldwide'}     />
+              <WorldMap description={'World Map Sample'} isDarkTheme={false} hasTeamsContext={false} title={'Microsoft Locations Worldwide'} />
             </div>
           }
         </div>

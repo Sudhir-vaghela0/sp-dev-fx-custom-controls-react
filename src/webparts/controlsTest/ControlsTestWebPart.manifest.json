@@ -61,6 +61,7 @@
           "ImagePicker": false,
           "ListItemAttachments": false,
           "ListItemComments": false,
+          "ListItemActivity": false,
           "ListItemPicker": false,
           "ListPicker": false,
           "ListView": false,

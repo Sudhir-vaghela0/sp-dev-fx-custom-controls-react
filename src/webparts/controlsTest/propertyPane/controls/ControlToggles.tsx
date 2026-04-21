@@ -29,7 +29,7 @@ export class ControlToggles extends React.Component<IControlTogglesProps, IContr
                 <TextField label="Search" placeholder="Search Controls" onChange={(e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                     this.setState({ filter: newValue });
                 }} />
-                { this.getValidControls().map((control: ValidControls) => {
+                {this.getValidControls().map((control: ValidControls) => {
                     if (this.state && this.state.filter && this.state.filter.length > 0 && control.toLowerCase().indexOf(this.state.filter.toLowerCase()) === -1) {
                         return null;
                     }
@@ -43,7 +43,7 @@ export class ControlToggles extends React.Component<IControlTogglesProps, IContr
                             }}
                         />
                     );
-                }) }
+                })}
             </div>
         );
     }
@@ -59,7 +59,7 @@ export class ControlToggles extends React.Component<IControlTogglesProps, IContr
             "FileTypeIcon", "FilterBar", "FolderExplorer", "FolderPicker",
             "GroupPicker", "GridLayout", "HoverReactionsBar", "IconPicker", "IFrameDialog",
             "IFramePanel", "ListItemPicker",
-            "ImagePicker", "ListItemAttachments", "ListItemComments",
+            "ImagePicker", "ListItemAttachments", "ListItemComments", "ListItemActivity",
             "ListPicker", "ListView", "LivePersona",
             "LocationPicker", "Map", "ModernAudio", "MonacoEditor",
             "ModernTaxonomyPicker", "Pagination", "PeoplePicker",

@@ -9,7 +9,7 @@
     "build": "heft test --clean --production && heft package-solution --production",
     "clean": "heft clean",
     "serve": "fast-serve",
-    "start": "heft start --clean",
+    "start": "NODE_OPTIONS=--max-old-space-size=8192 heft start --clean",
     "versionUpdater": "heft version-updater",
     "eject-webpack": "heft eject-webpack",
     "karma": "karma start --circle true",

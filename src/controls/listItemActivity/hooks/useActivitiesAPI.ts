@@ -1,34 +1,18 @@
 import { useContext } from "react";
 import { AppContext } from "../common";
 import { SPServices } from "../services/SPServices";
-import { IItemActivity, IItemActivityStat } from "../models/IItemActivity";
-
-export interface IActivitiesAPIResult {
-  activities: IItemActivity[];
-  v1Stats: IItemActivityStat[];
-}
+import { IItemActivity } from "../models/IItemActivity";
 
 /**
- * Hook that exposes Graph API calls for item activities via PnP JS (SPServices).
+ * Hook that exposes the Graph API call for item activities.
  * Reads siteId, listId, itemId, listType from AppContext.
  */
-const useActivitiesAPI = (): { getActivities: () => Promise<IActivitiesAPIResult> } => {
+const useActivitiesAPI = (): { getActivities: () => Promise<IItemActivity[]> } => {
   const { siteId, listId, itemId, listType } = useContext(AppContext);
 
-  const getActivities = async (): Promise<IActivitiesAPIResult> => {
+  const getActivities = async (): Promise<IItemActivity[]> => {
     const svc = new SPServices();
-    const result = await svc.getItemActivities(siteId, listId, itemId, listType);
-
-    // Normalise: PnP JS graphGet may return the OData wrapper or the unwrapped array
-    const normalise = <T,>(raw: T[] | { value: T[] } | undefined): T[] => {
-      if (!raw) return [];
-      return Array.isArray(raw) ? raw : (raw as { value: T[] }).value ?? [];
-    };
-
-    return {
-      activities: normalise(result.betaActivities),
-      v1Stats: normalise(result.v1Stats),
-    };
+    return svc.getItemActivities(siteId, listId, itemId, listType);
   };
 
   return { getActivities };

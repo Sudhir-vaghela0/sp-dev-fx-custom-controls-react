@@ -51,10 +51,10 @@ const ActivityTimeline: React.FC = () => {
   const { listItemActivityState } = useContext(ListItemActivityStateContext);
   const { loadMore } = useActivitiesState();
 
-  const { activities, isLoading, errorInfo, pageInfo } = listItemActivityState;
+  const { activities, isLoading, errorInfo, hasMore } = listItemActivityState;
 
   if (isLoading) return <RenderSpinner />;
-  if (errorInfo?.showError) return <RenderError error={errorInfo.error} />;
+  if (errorInfo?.error) return <RenderError error={errorInfo.error} />;
   if (!activities.length) return <RenderNoActivities />;
 
   const groups = groupActivities(activities);
@@ -74,7 +74,7 @@ const ActivityTimeline: React.FC = () => {
       ))}
 
       {/* ── Load more ────────────────────────────────────────────────── */}
-      {pageInfo.hasMore && (
+      {hasMore && (
         <div className={styles.loadMoreWrapper}>
           <button className={styles.loadMoreBtn} onClick={loadMore}>
             <Icon iconName="ChevronDown" styles={{ root: { fontSize: 10 } }} />

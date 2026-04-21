@@ -1875,9 +1875,8 @@ export default class ControlsTest extends React.Component<IControlsTestProps, IC
                 <ListItemActivity
                   context={this.props.context}
                   webUrl="https://testinglala.sharepoint.com/sites/ReactDepartment"
-                  listId="4e33eb73-eedb-45c3-80e8-b0fcd85b42a3"
-                  itemId="10"
-                  siteId="testinglala.sharepoint.com,bed818a4-6ba1-4601-8e46-c391db8f73e7,7f1d6e56-d448-4a36-97f8-349579d0ee31"
+                  listId="a2147c48-820a-40f3-9314-9e5287753821"
+                  itemId="7"
                   listType={EListType.List}
                   label="Item Activity"
                   numberActivitiesPerPage={10}

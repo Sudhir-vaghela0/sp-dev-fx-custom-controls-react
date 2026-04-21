@@ -32,32 +32,3 @@ export interface IItemActivity {
     recordedDateTime: string;
   };
 }
-
-// ─── Graph v1 interval statistics shape ────────────────────────────────────────
-
-export interface IItemActivityStat {
-  access?: { actionCount: number; actorCount: number };
-  create?: { actionCount: number; actorCount: number };
-  delete?: { actionCount: number; actorCount: number };
-  edit?: { actionCount: number; actorCount: number };
-  move?: { actionCount: number; actorCount: number };
-  startDateTime?: string;
-  endDateTime?: string;
-}
-
-// ─── SharePoint list item ─────────────────────────────────────────────────────
-
-import { EListType } from "./EListType";
-
-export interface IListItem {
-  id: string;
-  title: string;
-  fileRef?: string;
-  fileLeafRef?: string;
-  listId: string;
-  siteGraphId: string;
-  listType: EListType;
-  modified?: string;
-  editor?: string;
-  isFolder?: boolean;
-}

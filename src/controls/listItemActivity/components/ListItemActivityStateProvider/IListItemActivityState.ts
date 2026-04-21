@@ -1,14 +1,11 @@
-import { IItemActivity, IItemActivityStat } from "../../models/IItemActivity";
-import { IPageInfo } from "../../models/IPageInfo";
+import { IItemActivity } from "../../models/IItemActivity";
 import { IErrorInfo } from "./IErrorInfo";
 
 export interface IListItemActivityState {
   errorInfo: IErrorInfo | undefined;
   activities: IItemActivity[];
   allActivities: IItemActivity[];
-  v1Stats: IItemActivityStat[];
   isLoading: boolean;
-  isLoadingMore: boolean;
+  hasMore: boolean;
   visibleCount: number;
-  pageInfo: IPageInfo;
 }

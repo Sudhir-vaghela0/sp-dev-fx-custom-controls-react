@@ -12,11 +12,9 @@ const initialState: IListItemActivityState = {
   errorInfo: undefined,
   activities: [],
   allActivities: [],
-  v1Stats: [],
   isLoading: false,
-  isLoadingMore: false,
+  hasMore: false,
   visibleCount: 10,
-  pageInfo: { hasMore: false, nextLink: undefined },
 };
 
 interface IListItemActivityStateProviderProps {

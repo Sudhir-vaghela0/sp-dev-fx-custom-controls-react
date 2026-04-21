@@ -71,7 +71,7 @@ function getActionKey(action: IItemActivity["action"]): string {
   return Object.keys(action ?? {}).find((k) => action[k as keyof typeof action] !== undefined) ?? "";
 }
 
-export function formatOOBTimestamp(dateStr: string): string {
+function formatOOBTimestamp(dateStr: string): string {
   if (!dateStr) return "";
   const date = new Date(dateStr);
   const now = new Date();

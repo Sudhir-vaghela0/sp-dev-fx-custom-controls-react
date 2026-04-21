@@ -3,6 +3,7 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { EListType } from "./models/EListType";
 import { AppContext } from "./common/AppContext";
 import { setup } from "./services/PnPJsConfig";
+import { SPServices } from "./services/SPServices";
 import { ListItemActivityStateProvider } from "./components/ListItemActivityStateProvider/ListItemActivityStateProvider";
 import ActivityTimeline from "./components/ActivityTimeline/ActivityTimeline";
 import { useActivityTimelineStyles } from "./components/ActivityTimeline/useActivityTimelineStyles";
@@ -18,8 +19,8 @@ export interface IListItemActivityProps {
   listId: string;
   /** Numeric item ID (as string) */
   itemId: string;
-  /** Graph site ID — "{hostname},{siteId},{webId}" */
-  siteId: string;
+  /** Graph site ID — "{hostname},{siteId},{webId}". If omitted, it is resolved automatically from webUrl. */
+  siteId?: string;
   /** Whether the list is a document library or a regular list */
   listType: EListType;
   /** Optional display name of the item */
@@ -71,7 +72,7 @@ export const ListItemActivity: React.FC<IListItemActivityProps> = ({
   webUrl,
   listId,
   itemId,
-  siteId,
+  siteId: siteIdProp,
   listType,
   title,
   label = "Item Activity",
@@ -83,21 +84,64 @@ export const ListItemActivity: React.FC<IListItemActivityProps> = ({
   // so useEffect here would be too late when useActivitiesState tries to call MSGraphClient.
   setup(context);
 
+  const [resolvedSiteId, setResolvedSiteId] = React.useState<string | null>(siteIdProp ?? null);
+  const [siteIdError, setSiteIdError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (siteIdProp) {
+      setResolvedSiteId(siteIdProp);
+      return;
+    }
+    let cancelled = false;
+    const svc = new SPServices();
+    svc
+      .getGraphSiteId(webUrl)
+      .then((id) => {
+        if (!cancelled) setResolvedSiteId(id);
+      })
+      .catch((err) => {
+        if (!cancelled) setSiteIdError(`Could not resolve site ID: ${err?.message ?? err}`);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [siteIdProp, webUrl]);
+
   const appContext = React.useMemo(
-    () => ({
-      context,
-      webUrl,
-      listId,
-      itemId,
-      siteId,
-      listType,
-      numberActivitiesPerPage,
-      label,
-      title,
-    }),
+    () =>
+      resolvedSiteId
+        ? {
+            context,
+            webUrl,
+            listId,
+            itemId,
+            siteId: resolvedSiteId,
+            listType,
+            numberActivitiesPerPage,
+            label,
+            title,
+          }
+        : null,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [listId, itemId, siteId, listType, numberActivitiesPerPage, label, title, webUrl],
+    [listId, itemId, resolvedSiteId, listType, numberActivitiesPerPage, label, title, webUrl],
   );
+
+  if (siteIdError) {
+    return (
+      <div className={styles.root}>
+        <ActivityHeader label={label} title={title} />
+        <div>{siteIdError}</div>
+      </div>
+    );
+  }
+
+  if (!appContext) {
+    return (
+      <div className={styles.root}>
+        <ActivityHeader label={label} title={title} />
+      </div>
+    );
+  }
 
   return (
     <AppContext.Provider value={appContext}>

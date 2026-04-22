@@ -15,6 +15,7 @@ export class SPServices {
     return this._graphClient;
   }
 
+
   public getGraphSiteId = async (siteUrl: string): Promise<string> => {
     const url = new URL(siteUrl);
     const client = await this._getGraphClient();
